@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h2>Account {{ account.account_number }}</h2>
+<p>Type: {{ account.get_account_type_display }}</p>
+<p>Balance: {{ account.balance }} {{ account.currency }}</p>
+
+<h3>Transactions</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Reference</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for txn in transactions %}
+        <tr>
+            <td>{{ txn.reference_id }}</td>
+            <td>{{ txn.get_type_display }}</td>
+            <td>{{ txn.amount }} {{ txn.currency }}</td>
+            <td>{{ txn.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No transactions found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

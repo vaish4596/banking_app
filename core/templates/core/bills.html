@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Bills</h2>
+
+<form method="post" action="{% url 'create_sample_bills' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary mb-3">Create Bills</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Payee</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bill in bills %}
+        <tr>
+            <td>{{ bill.payee.name }}</td>
+            <td>{{ bill.amount }}</td>
+            <td>{{ bill.get_status_display|default:bill.status }}</td>
+            <td>{{ bill.due_date|date:"Y-m-d" }}</td>
+            <td>
+                {% if bill.status != bill.STATUS_PAID %}
+                <a href="{% url 'pay_bill' bill.id %}" class="btn btn-success btn-sm">Pay</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No bills found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

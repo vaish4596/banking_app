@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Pay Bill #{{ bill.id }}</h2>
+<p>Payee: <strong>{{ bill.payee.name }}</strong></p>
+<p>Amount: <strong>{{ bill.amount }}</strong></p>
+
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="account">Pay from account</label>
+        <select name="account" id="account" class="form-select">
+            {% for acc in accounts %}
+            <option value="{{ acc.id }}">{{ acc.account_number }} — {{ acc.balance }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Pay</button>
+</form>
+{% endblock %}
