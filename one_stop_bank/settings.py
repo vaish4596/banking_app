@@ -90,7 +90,8 @@ USE_I18N = True
 USE_TZ = True
 
 # ---------------- STATIC FILES ----------------
-STATIC_URL = '/static/'
+STATIC_URL = '/banking_static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # app-level/static
 
