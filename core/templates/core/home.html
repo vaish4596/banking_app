@@ -1,9 +1,40 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="text-center py-4">
+  {% if user.is_authenticated %}
+  <h2 class="mb-2">
+    Welcome back, {{ user.get_full_name|default:user.username }}!
+  </h2>
+  <p class="text-muted mb-4">Quick actions to manage your money.</p>
 
+  <div class="d-flex justify-content-center gap-2 flex-wrap">
+    <a class="btn btn-primary cta-btn" href="{% url 'accounts' %}"
+      >My Accounts</a
+    >
+    <a class="btn btn-success cta-btn" href="{% url 'deposit' %}">Deposit</a>
+    <a class="btn btn-danger cta-btn" href="{% url 'withdraw' %}">Withdraw</a>
+    <a class="btn btn-outline-primary cta-btn" href="{% url 'transfer' %}"
+      >Transfer</a
+    >
+    <a class="btn btn-warning cta-btn" href="{% url 'bills' %}">Bills</a>
+  </div>
 
-{% block content %}
-<div class="text-center">
-    <h1>Welcome to One Stop Bank</h1>
-    <p>Manage your accounts, transactions, and bills easily.</p>
+  <div class="mt-4">
+    <small class="text-muted"
+      >Tip: use the Transfer page to move money between your accounts.</small
+    >
+  </div>
+  {% else %}
+  <h2 class="mb-3">Welcome to One Stop Bank</h2>
+  <p class="mb-4 text-muted">
+    Sign up or log in to start managing accounts, paying bills and transferring
+    funds.
+  </p>
+  <div class="d-flex justify-content-center gap-2">
+    <a class="btn btn-light cta-btn" href="{% url 'signup' %}"
+      >Create account</a
+    >
+    <a class="btn btn-outline-light cta-btn" href="{% url 'login' %}">Login</a>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

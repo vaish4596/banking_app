@@ -1,5 +1,5 @@
 import random
-from .models import Bill, Account, Transaction, Payee   # ✅ added Payee
+from .models import Bill, Account, Transaction, Payee  # ✅ added Payee
 from django.conf import settings
 import uuid
 from django.shortcuts import get_object_or_404, redirect, render
@@ -30,7 +30,7 @@ def signup(request):
 
 # Home page
 def home(request):
-    return render(request, "core/home.html")
+    return render(request, "core/home.html", {})
 
 
 # Accounts list
@@ -100,7 +100,9 @@ def withdraw(request):
                 created_by=request.user,
                 description="Withdraw",
             )
-            messages.success(request, f"Withdrew {amount} from {account.account_number}")
+            messages.success(
+                request, f"Withdrew {amount} from {account.account_number}"
+            )
         else:
             messages.error(request, "Insufficient balance")
         return redirect("accounts")
@@ -155,7 +157,6 @@ def bills(request):
     return render(request, "core/bills.html", {"bills": bills})
 
 
-
 @login_required
 def create_sample_bills(request):
     """
@@ -169,28 +170,28 @@ def create_sample_bills(request):
             name="Electricity Board",
             account_number="1111111111",
             bank_name="Utility Bank",
-            ifsc="UTIL0001"
+            ifsc="UTIL0001",
         )
         p2, _ = Payee.objects.get_or_create(
             user=request.user,
             name="Water Supply",
             account_number="2222222222",
             bank_name="Utility Bank",
-            ifsc="UTIL0002"
+            ifsc="UTIL0002",
         )
 
         # create bills linked to these payees
         Bill.objects.create(
             user=request.user,
             payee=p1,
-            amount=Decimal('500.00'),
+            amount=Decimal("500.00"),
             due_date=timezone.now() + timezone.timedelta(days=7),
             status=Bill.STATUS_PENDING,
         )
         Bill.objects.create(
             user=request.user,
             payee=p2,
-            amount=Decimal('300.00'),
+            amount=Decimal("300.00"),
             due_date=timezone.now() + timezone.timedelta(days=10),
             status=Bill.STATUS_PENDING,
         )
@@ -199,6 +200,7 @@ def create_sample_bills(request):
         return redirect("bills")
 
     return redirect("bills")
+
 
 @login_required
 def pay_bill(request, bill_id):
@@ -230,7 +232,7 @@ def pay_bill(request, bill_id):
                         type=Transaction.TYPE_BILL,
                         status=Transaction.STATUS_COMPLETED,
                         created_by=request.user,
-                        description=f"Bill payment SUCCESS (Mock Razorpay ID: {fake_payment_id})"
+                        description=f"Bill payment SUCCESS (Mock Razorpay ID: {fake_payment_id})",
                     )
                     messages.success(request, f"Bill {bill.id} paid successfully!")
                 else:
@@ -241,9 +243,11 @@ def pay_bill(request, bill_id):
                         type=Transaction.TYPE_BILL,
                         status=Transaction.STATUS_FAILED,
                         created_by=request.user,
-                        description=f"Bill payment FAILED (Mock Razorpay ID: {fake_payment_id})"
+                        description=f"Bill payment FAILED (Mock Razorpay ID: {fake_payment_id})",
                     )
-                    messages.error(request, f"Bill {bill.id} payment FAILED (Mock Razorpay)")
+                    messages.error(
+                        request, f"Bill {bill.id} payment FAILED (Mock Razorpay)"
+                    )
                 return redirect("bills")
 
             else:
@@ -253,4 +257,6 @@ def pay_bill(request, bill_id):
             messages.error(request, "Insufficient balance in selected account.")
             return redirect("bills")
 
-    return render(request, "core/pay_bill.html", {"bill": bill, "accounts": user_accounts})
+    return render(
+        request, "core/pay_bill.html", {"bill": bill, "accounts": user_accounts}
+    )

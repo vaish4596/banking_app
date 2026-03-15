@@ -1,0 +1,51 @@
+body{
+font-family:Segoe UI;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+cursor:url("https://cur.cursors-4u.net/cursors/cur-2/cur116.cur"),auto;
+}
+.hero{
+height:85vh;
+
+background:url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1974&auto=format&fit=crop") center/cover no-repeat;
+
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+}
+.hero h1{
+font-size:50px;
+font-weight:bold;
+}
+
+.service-card{
+padding:30px;
+border-radius:15px;
+margin:10px;
+transition:0.3s;
+color:black;
+}
+
+.service-card:hover{
+transform:scale(1.1);
+box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+.footer{
+background:black;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+
+.btn-warning{
+transition:0.3s;
+}
+
+.btn-warning:hover{
+transform:scale(1.1);
+box-shadow:0 0 15px gold;
+}
