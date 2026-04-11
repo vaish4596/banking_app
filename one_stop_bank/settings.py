@@ -1,6 +1,4 @@
-"""
-Django settings for one_stop_bank project.
-"""
+
 
 import os
 from pathlib import Path
